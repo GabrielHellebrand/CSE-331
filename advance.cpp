@@ -8,7 +8,39 @@
 #include "advance.h"
 
 
-void Inertia::advance()
+
+void Inertia::advance(Bird bird)
+{
+   // small amount of drag
+   v *= 0.995;
+
+   // inertia
+   pt.add(v);
+
+   // out of bounds checker
+   if (isOutOfBounds())
+   {
+      kill();
+      points *= -1; // points go negative when it is missed!
+   }
+}
+
+
+void Gravity::advance(Bird bird)
+{
+   
+}
+
+
+
+void Buoyancy::advance(Bird bird)
+{
+   
+}
+
+
+
+void Chaos::advance(Bird bird)
 {
    
 }

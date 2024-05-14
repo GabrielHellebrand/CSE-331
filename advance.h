@@ -7,36 +7,37 @@
 #pragma once
 
 #include <stdio.h>
+#include "bird.h"
 
 class Advance
 {
 private:
-   virtual void advance() = 0;
+   virtual void advance(Bird bird) = 0;
 
 };
 
 
 class Inertia : Advance
 {
-   void advance();
+   void advance(Bird bird);
 };
 
 
 class Gravity : Advance
 {
-   void advance();
+   void advance(Bird bird);
 };
 
 
 
 class Buoyancy : Advance
 {
-   void advance();
+   void advance(Bird bird);
 };
 
 
 
 class Chaos : Advance
 {
-   void advance();
+   void advance(Bird bird);
 };
