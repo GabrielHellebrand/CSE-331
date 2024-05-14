@@ -26,7 +26,7 @@
 #ifdef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL/glut.h>         // OpenGL library we copied 
+#include <GL/glut.h>         // OpenGL library we copied
 #define _USE_MATH_DEFINES
 #include <math.h>
 #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
@@ -66,10 +66,9 @@ double randomFloat(double min, double max)
 /***************************************************************/
 
 /******************************************************************
- * Constructors
+ * STANDARD constructor
  ******************************************************************/
 Standard::Standard(double radius, double speed, int points) : Bird()
-
 {
    // set the position: standard birds start from the middle
    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
@@ -131,72 +130,19 @@ Sinker::Sinker(double radius, double speed, int points) : Bird()
  ******************************************************************/
 Crazy::Crazy(double radius, double speed, int points) : Bird()
 {
-    // crazy birds start in the middle and can go any which way
-    pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
-    pt.setX(0.0);
+   // crazy birds start in the middle and can go any which way
+   pt.setY(randomFloat(dimensions.getY() * 0.25, dimensions.getY() * 0.75));
+   pt.setX(0.0);
 
-    // set the velocity
-    v.setDx(randomFloat(speed - 0.5, speed + 0.5));
-    v.setDy(randomFloat(-speed / 5.0, speed / 5.0));
+   // set the velocity
+   v.setDx(randomFloat(speed - 0.5, speed + 0.5));
+   v.setDy(randomFloat(-speed / 5.0, speed / 5.0));
 
-    // set the points value
-    this->points = points;
+   // set the points value
+   this->points = points;
 
-    // set the size
-    this->radius = radius;
-};
-// factory design pattern
-enum BirdType
-{
-    STANDARD1,
-    STANDARD2,
-    STANDARD3,
-    STANDARD4,
-    SINKER2,
-    SINKER3,
-    SINKER4,
-    FLOATER3,
-    FLOATER4,
-    CRAZY
-};
-// a switch case statement that goes through the types of birds
-Bird* factory(BirdType type, double radius = 30.0, double speed = 5.0, int points = 15.0) {
-    switch (type) {
-    case STANDARD1:
-        return new Standard(radius, speed, points);
-    case STANDARD2:
-        return new Standard(radius, speed, points);
-    case STANDARD3:
-        return new Standard(radius, speed, points);
-    case STANDARD4:
-        return new Standard(radius, speed, points);
-    case SINKER2:
-        return new Sinker(radius, speed, points);
-    case SINKER3:
-        return new Sinker(radius, speed, points);
-    case SINKER4:
-        return new Sinker(radius, speed, points);
-    case FLOATER3:
-        return new Floater(radius, speed, points);
-    case FLOATER4:
-        return new Floater(radius, speed, points);
-    case CRAZY:
-        return new Crazy(radius, speed, points);
-    default:
-        return nullptr;
-
-        void spawn(BirdType type, double radius, double speed, int points);
-        Bird* bird1 = factory(STANDARD1);
-        Bird* bird2 = factory(STANDARD2);
-        Bird* bird3 = factory(STANDARD3);
-        Bird* bird4 = factory(STANDARD4);
-        Bird* bird5 = factory(SINKER2);
-        Bird* bird6 = factory(SINKER3);
-        Bird* bird7 = factory(SINKER4);
-        Bird* bird8 = factory(FLOATER3);
-        Bird* bird9 = factory(FLOATER4);
-        Bird* bird10 = factory(CRAZY);
-    }
+   // set the size
+   this->radius = radius;
 }
 
  /***************************************************************/
@@ -390,8 +336,4 @@ void Sinker::draw()
       drawDisk(pt, radius - 0.0, 0.0, 0.0, 0.8);
       drawDisk(pt, radius - 4.0, 0.0, 0.0, 0.0);
    }
-}
-
-void spawn(BirdType type, double radius, double speed, int points)
-{
 }
