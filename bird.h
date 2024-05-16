@@ -9,6 +9,8 @@
 
 #pragma once
 #include "position.h"
+//class Advance;
+#include "advance.h"
 
 /**********************
  * BIRD
@@ -17,12 +19,14 @@
 class Bird
 {
 protected:
+//   friend Advance;
    static Position dimensions; // size of the screen
    Position pt;                  // position of the flyer
    Velocity v;                // velocity of the flyer
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   Advance* adv;
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
@@ -47,7 +51,13 @@ public:
 
    // special functions
    virtual void draw() = 0;
-   virtual void advance() = 0;
+   virtual void advance()
+   {
+      if (adv!= nullptr)
+      {
+         adv->advance(v, pt, points, *this);
+      }
+   }
 };
 
 /*********************************************
@@ -59,7 +69,6 @@ class Standard : public Bird
 public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -71,7 +80,6 @@ class Floater : public Bird
 public:
     Floater(double radius = 30.0, double speed = 5.0, int points = 15);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -83,7 +91,6 @@ class Crazy : public Bird
 public:
     Crazy(double radius = 30.0, double speed = 4.5, int points = 30);
     void draw();
-    void advance();
 };
 
 /*********************************************
@@ -95,5 +102,4 @@ class Sinker : public Bird
 public:
     Sinker(double radius = 30.0, double speed = 4.5, int points = 20);
     void draw();
-    void advance();
 };

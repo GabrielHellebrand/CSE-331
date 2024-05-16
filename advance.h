@@ -7,37 +7,41 @@
 #pragma once
 
 #include <stdio.h>
-#include "bird.h"
+//#include "bird.h"
+#include "position.h"
+class Bird;
 
 class Advance
 {
-private:
-   virtual void advance(Bird bird) = 0;
+public:
+   virtual void advance(Velocity &v, Position &pt, int &points, Bird& bird) = 0;
 
 };
 
 
-class Inertia : Advance
+class Inertia : public Advance
 {
-   void advance(Bird bird);
+   void advance(Velocity &v, Position &pt, int &points, Bird& bird);
 };
 
 
-class Gravity : Advance
+class Gravity : public Advance
 {
-   void advance(Bird bird);
-};
-
-
-
-class Buoyancy : Advance
-{
-   void advance(Bird bird);
+   void advance(Velocity &v, Position &pt, int &points, Bird& bird);
 };
 
 
 
-class Chaos : Advance
+class Buoyancy : public Advance
 {
-   void advance(Bird bird);
+   void advance(Velocity &v, Position &pt, int &points, Bird& bird);
+};
+
+
+
+class Chaos : public Advance
+{
+   void advance(Velocity &v, Position &pt, int &points, Bird& bird);
+   friend int randomInt(int min, int max);
+   friend double randomFloat(double min, double max);
 };
