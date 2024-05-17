@@ -9,6 +9,7 @@
 
 #include <cassert>
 #include "bird.h"
+#include "advance.h"
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -145,59 +146,6 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
     // set the size
     this->radius = radius;
 };
-// factory design pattern
-enum BirdType
-{
-    STANDARD1,
-    STANDARD2,
-    STANDARD3,
-    STANDARD4,
-    SINKER2,
-    SINKER3,
-    SINKER4,
-    FLOATER3,
-    FLOATER4,
-    CRAZY
-};
-// a switch case statement that goes through the types of birds
-Bird* factory(BirdType type, double radius = 30.0, double speed = 5.0, int points = 15.0) {
-    switch (type) {
-    case STANDARD1:
-        return new Standard(radius, speed, points);
-    case STANDARD2:
-        return new Standard(radius, speed, points);
-    case STANDARD3:
-        return new Standard(radius, speed, points);
-    case STANDARD4:
-        return new Standard(radius, speed, points);
-    case SINKER2:
-        return new Sinker(radius, speed, points);
-    case SINKER3:
-        return new Sinker(radius, speed, points);
-    case SINKER4:
-        return new Sinker(radius, speed, points);
-    case FLOATER3:
-        return new Floater(radius, speed, points);
-    case FLOATER4:
-        return new Floater(radius, speed, points);
-    case CRAZY:
-        return new Crazy(radius, speed, points);
-    default:
-        return nullptr;
-
-        void spawn(BirdType type, double radius, double speed, int points);
-        Bird* bird1 = factory(STANDARD1);
-        Bird* bird2 = factory(STANDARD2);
-        Bird* bird3 = factory(STANDARD3);
-        Bird* bird4 = factory(STANDARD4);
-        Bird* bird5 = factory(SINKER2);
-        Bird* bird6 = factory(SINKER3);
-        Bird* bird7 = factory(SINKER4);
-        Bird* bird8 = factory(FLOATER3);
-        Bird* bird9 = factory(FLOATER4);
-        Bird* bird10 = factory(CRAZY);
-    }
-}
 
  /***************************************************************/
  /***************************************************************/
@@ -211,11 +159,7 @@ Bird* factory(BirdType type, double radius = 30.0, double speed = 5.0, int point
  *********************************************/
 void Standard::advance()
 {
-   // small amount of drag
-   v *= 0.995;
-
-   // inertia
-   pt.add(v);
+    sadvance.advance(*this);
 
    // out of bounds checker
    if (isOutOfBounds())
@@ -231,14 +175,7 @@ void Standard::advance()
  *********************************************/
 void Floater::advance()
 {
-   // large amount of drag
-   v *= 0.990;
-
-   // inertia
-   pt.add(v);
-
-   // anti-gravity
-   v.addDy(0.05);
+    FloaterAdvance advance;
 
    // out of bounds checker
    if (isOutOfBounds())
@@ -392,6 +329,3 @@ void Sinker::draw()
    }
 }
 
-void spawn(BirdType type, double radius, double speed, int points)
-{
-}

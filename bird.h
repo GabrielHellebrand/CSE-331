@@ -9,6 +9,8 @@
 
 #pragma once
 #include "position.h"
+#include "advance.h"
+
 
 /**********************
  * BIRD
@@ -23,7 +25,6 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
-   
 public:
    Bird() : dead(false), points(0), radius(1.0) { }
    
@@ -56,6 +57,8 @@ public:
  *********************************************/
 class Standard : public Bird
 {
+private:
+    StandardAdvance sadvance;
 public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();
