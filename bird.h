@@ -38,6 +38,8 @@ public:
    bool isDead()           const { return dead;   }
    Position getPosition()     const { return pt;     }
    Velocity getVelocity()  const { return v;      }
+   Position& getPositionRef() { return pt; }
+   Velocity& getVelocityRef() { return v; }
    double getRadius()      const { return radius; }
    int getPoints() const { return points; }
    bool isOutOfBounds() const
@@ -58,7 +60,6 @@ public:
 class Standard : public Bird
 {
 private:
-    StandardAdvance sadvance;
 public:
     Standard(double radius = 25.0, double speed = 5.0, int points = 10);
     void draw();

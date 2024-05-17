@@ -159,7 +159,8 @@ Crazy::Crazy(double radius, double speed, int points) : Bird()
  *********************************************/
 void Standard::advance()
 {
-    sadvance.advance(*this);
+    StandardAdvance advance;
+    advance.advance(*this);
 
    // out of bounds checker
    if (isOutOfBounds())
@@ -176,6 +177,7 @@ void Standard::advance()
 void Floater::advance()
 {
     FloaterAdvance advance;
+    advance.advance(*this);
 
    // out of bounds checker
    if (isOutOfBounds())
@@ -191,15 +193,8 @@ void Floater::advance()
  *********************************************/
 void Crazy::advance()
 {
-   // erratic turns eery half a second or so
-   if (randomInt(0, 15) == 0)
-   {
-      v.addDy(randomFloat(-1.5, 1.5));
-      v.addDx(randomFloat(-1.5, 1.5));
-   }
-
-   // inertia
-   pt.add(v);
+    CrazyAdvance advance;
+    advance.advance(*this);
 
    // out of bounds checker
    if (isOutOfBounds())
@@ -215,11 +210,8 @@ void Crazy::advance()
  *********************************************/
 void Sinker::advance()
 {
-   // gravity
-   v.addDy(-0.07);
-
-   // inertia
-   pt.add(v);
+    SinkerAdvance advance;
+    advance.advance(*this);
 
    // out of bounds checker
    if (isOutOfBounds())

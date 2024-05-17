@@ -13,34 +13,34 @@ class Bird;
 class Advance
 {
 private:
-	void inertia(const Bird& bird);
-	virtual void drag(const Bird& bird) {};
+	void inertia(Bird& bird);
+	virtual void drag(Bird& bird) {};
 
-	virtual void buoyancy(const Bird& bird) {};
-	virtual void turn(const Bird& bird) {};
+	virtual void buoyancy(Bird& bird) {};
+	virtual void turn(Bird& bird) {};
 public:
-	void advance(const Bird& bird);
+	void advance(Bird& bird);
 };
 
 class StandardAdvance : public Advance
 {
 private:
-	void drag(const Bird& bird);
+	void drag(Bird& bird);
 };
 
 class FloaterAdvance : public Advance
 {
-	void drag(const Bird& bird);
-	void buoyancy(const Bird& bird);
+	void drag(Bird& bird);
+	void buoyancy(Bird& bird);
 };
 
 class SinkerAdvance : public Advance
 {
-	void buoyancy(const Bird& bird);
+	void buoyancy(Bird& bird);
 };
 
 class CrazyAdvance : public Advance
 {
-	void turn(const Bird& bird);
+	void turn(Bird& bird);
 };
 
