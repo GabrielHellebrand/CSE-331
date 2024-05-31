@@ -34,7 +34,7 @@
 /*********************************************
  * BULLET constructor
  *********************************************/
-Bullet::Bullet(double angle, double speed, double radius, int value) :
+Bullet::Bullet(Status* score, Status* hit, double angle, double speed, double radius, int value) :
    dead(false), radius(radius), value(value)
 {
    // set the initial position
@@ -47,6 +47,9 @@ Bullet::Bullet(double angle, double speed, double radius, int value) :
    v.setDy(speed * sin(angle));
    assert(v.getDx() <= 0.0);
    assert(v.getDy() >= 0.0);
+
+   subscribe(score);
+   subscribe(hit);
 }
 
 /*********************************************
@@ -76,7 +79,7 @@ void Bullet::move(std::list<Effect*> & effects)
 
    // out of bounds checker
    if (isOutOfBounds())
-      kill();
+      kill(true);
 }
 
 /*********************************************
@@ -88,7 +91,7 @@ void Bomb::move(std::list<Effect*> & effects)
     // kill if it has been around too long
     timeToDie--;
     if (!timeToDie)
-        kill();
+        kill(true);
 
     // do the inertia thing
     Bullet::move(effects);
@@ -116,7 +119,7 @@ void Shrapnel::move(std::list<Effect*> & effects)
     // kill if it has been around too long
     timeToDie--;
     if (!timeToDie)
-        kill();
+        kill(true);
 
     // add a streek
     effects.push_back(new Streek(pt, v));
