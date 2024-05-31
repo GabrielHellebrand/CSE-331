@@ -12,6 +12,7 @@
 #include "effect.h"
 #include <list>
 #include <cassert>
+#include "score.h"
 
 /*********************************************
  * BULLET
@@ -26,12 +27,37 @@ protected:
    double radius;             // the size (radius) of the bullet
    bool dead;                 // is this bullet dead?
    int value;                 // how many points does this cost?
+   std::list<Status*> audience; 
     
 public:
-   Bullet(double angle = 0.0, double speed = 30.0, double radius = 5.0, int value = 1);
+    void subscribe(Status* status) { audience.push_back(status); }
+    void unsubscribe() 
+    { 
+        for (Status* status : audience)
+        {
+            audience.remove(status);
+        }
+    }
+    void notify(int message)
+    {
+        for (Status* status : audience)
+        {
+            status->notify(message);
+        }
+    }
+
+   Bullet(Status* score = nullptr, Status* hit = nullptr, double angle = 0.0, double speed = 30.0, double radius = 5.0, int value = 1);
    
    // setters
-   void kill()                   { dead = true; }
+   void kill(bool OB) 
+   { 
+       dead = true; 
+       if (OB)
+       {
+           notify(-1);
+       }
+       //unsubscribe();
+   }
    void setValue(int newValue)   { value = newValue; }
    
    // getters
@@ -69,7 +95,7 @@ protected:
 class Pellet : public Bullet
 {
 public:
-   Pellet(double angle, double speed = 15.0) : Bullet(angle, speed, 1.0, 1) {}
+   Pellet(Status*  score, Status* hit, double angle, double speed = 15.0) : Bullet(score, hit, angle, speed, 1.0, 1) {}
    
    void output();
 };
@@ -83,7 +109,7 @@ class Bomb : public Bullet
 private:
    int timeToDie;
 public:
-   Bomb(double angle, double speed = 10.0) : Bullet(angle, speed, 4.0, 4), timeToDie(60) {}
+   Bomb(Status* score, Status* hit, double angle, double speed = 10.0) : Bullet(score, hit, angle, speed, 4.0, 4), timeToDie(60) {}
    
    void output();
    void move(std::list<Effect*> & effects);
@@ -125,7 +151,7 @@ public:
 class Missile : public Bullet
 {
 public:
-   Missile(double angle, double speed = 10.0) : Bullet(angle, speed, 1.0, 3) {}
+   Missile(Status* score, Status* hit, double angle, double speed = 10.0) : Bullet(score, hit, angle, speed, 1.0, 3) {}
    
    void output();
    void input(bool isUp, bool isDown, bool isB)
